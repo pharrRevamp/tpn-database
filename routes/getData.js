@@ -24,6 +24,30 @@ router.post("/customer-list", (req, res) => {
   }
 });
 
+router.post("/street-name", (req, res) => {
+  const address = req.body.data;
+  console.log(address);
+  try {
+    const sqlString = `SELECT * FROM dbo.Registrations WHERE [Street Address] like '%${address}%' OR [Street Address Line 2] like '%${address}%'`;
+    const requestDB = new sql.Request(pool);
+
+    pool
+      .connect()
+      .then(() => {
+        requestDB.query(sqlString, (err, data) => {
+          if (err) throw err;
+          console.log(data.recordset.length);
+          res.status(200).send(data.recordset);
+        });
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 router.post("/customer-email", (req, res) => {
   const dataString = req.body.data;
   try {

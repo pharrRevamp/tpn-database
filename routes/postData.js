@@ -91,11 +91,6 @@ router.post("/edit-customer", async (req, res) => {
               res.status(500).send(err);
               return;
             }
-            // console.log(data);
-            // if (data.rowsAffected[0] > 0) {
-            //   console.log("popped");
-            //   recordsChanged += data.rowsAffected[0];
-            // }
           });
         }
 
