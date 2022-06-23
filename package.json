@@ -1,0 +1,17 @@
+{
+  "name": "tpn-database",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/pharrRevamp/tpn-database.git",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mssql": "^8.1.2",
+    "nodemon": "^2.0.16"
+  }
+}
