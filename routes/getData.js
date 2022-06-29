@@ -26,7 +26,6 @@ router.post("/customer-list", (req, res) => {
 
 router.post("/street-name", (req, res) => {
   const address = req.body.data;
-  console.log(address);
   try {
     const sqlString = `SELECT * FROM dbo.Registrations WHERE [Street Address] like '%${address}%' OR [Street Address Line 2] like '%${address}%'`;
     const requestDB = new sql.Request(pool);
@@ -36,7 +35,7 @@ router.post("/street-name", (req, res) => {
       .then(() => {
         requestDB.query(sqlString, (err, data) => {
           if (err) throw err;
-          console.log(data.recordset.length);
+
           res.status(200).send(data.recordset);
         });
       })
@@ -126,5 +125,47 @@ router.post("/customer-name", (req, res) => {
   }
 });
 
+router.post("/pon", (req, res) => {
+  const dataString = req.body.data;
+  try {
+    const sqlString = `SELECT * FROM dbo.Registrations WHERE PON = '${dataString}'`;
+    const requestDB = new sql.Request(pool);
+    pool
+      .connect()
+      .then(() => {
+        requestDB.query(sqlString, (err, data) => {
+          if (err) throw err;
+          res.status(200).send(data.recordset);
+        });
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  } catch (err) {
+    console.log(`unable to connect to server to get he PON info`);
+    res.status(500).send(err);
+  }
+});
+
+router.post("/account-number", (req, res) => {
+  const dataString = req.body.data;
+  try {
+    const sqlString = `SELECT * FROM dbo.Registrations WHERE [City of Pharr or North Alamo Water Utilities Account Number] = '${dataString}'`;
+    const requestDB = new sql.Request(pool);
+    pool
+      .connect()
+      .then(() => {
+        requestDB.query(sqlString, (err, data) => {
+          if (err) throw err;
+          res.status(200).send(data.recordset);
+        });
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 pool.close();
 module.exports = router;

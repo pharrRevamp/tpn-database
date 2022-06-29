@@ -5,7 +5,7 @@ require("dotenv").config();
 
 router.post("/edit-customer", async (req, res) => {
   const arrayOfData = req.body.data;
-  //   console.log(arrayOfData);
+
   //   console.log(arrayOfData);
 
   try {
@@ -55,9 +55,11 @@ router.post("/edit-customer", async (req, res) => {
             Notes,
             Verified,
             verifiedBy = recordData["Verified by"],
+            hardwareProvision = recordData["Hardware Provisioned"],
+            cloudProvision = recordData["Cloud Support Provisioned"],
+            smxProvision = recordData["SMX Provisioned"],
           } = recordData;
           // console.log(uuid);
-
           const sqlString = `
             UPDATE dbo.Registrations
   SET [First Name] = '${firstName}',
@@ -73,16 +75,20 @@ router.post("/edit-customer", async (req, res) => {
   [What part of Pharr do you live in?] = '${pharrSectionLocation}',
   [Utility Account Holder] = '${utilityAccountHolder}',
   PON = '${PON}',
-  [Install Date] = '${installDate}',
-  [Router Type] = '${routerType}',
-  [Mesh Amount] = '${meshAmount}',
   [Owner Approval] = '${ownerApproval}',
   [Service Status] = '${serviceStatus}',
   Refund = '${Refund}',
   [Refund Type] = '${refundType}',
-  Notes = '${Notes}',
   Verified = '${Verified}',
-  [Verified by] = '${verifiedBy}'
+  [Verified by] = '${verifiedBy}',
+  [Router Type] = '${routerType}',
+  [Mesh Amount] = '${meshAmount}',
+  [Hardware Provisioned]='${hardwareProvision}',
+  [SMX Provisioned]='${smxProvision}',
+  [Cloud Support Provisioned]='${cloudProvision}',
+  [Install Date] = '${installDate}',
+  Notes = '${Notes}'
+
   WHERE uuid = '${uuid}'`;
 
           requestDB.query(sqlString, (err, data) => {
@@ -91,6 +97,7 @@ router.post("/edit-customer", async (req, res) => {
               res.status(500).send(err);
               return;
             }
+            console.log(data);
           });
         }
 
